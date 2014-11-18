@@ -1,8 +1,9 @@
 import java.io.*;
 import java.net.*;
 
-public class SafeWalkServerJeremy {
-    int port;
+public class SafeWalkServerJeremy implements Runnable {
+    private  ServerSocket ss;
+    
 
     public SafeWalkServerJeremy(int port) throws IOException {
 	ServerSocket ss = new ServerSocket(port);
@@ -16,11 +17,19 @@ public class SafeWalkServerJeremy {
 	ss.setReuseAddress(true);
     }
 
+    public int getLocalPort() {
+	return ss.getLocalPort();
+    }
+
     public void run() {
-	while(true) {
-	    Socket s = accept();
-	    
+	try {
+	    while(true) {
+		Socket s = ss.accept();
+		PrintWriter pw = new PrintWriter(s.getOutputStream());
+		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+	    }
 	}
+    }
 
     
 
